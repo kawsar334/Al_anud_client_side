@@ -34,7 +34,7 @@ const NavMiddle = () => {
                                     <li><NavLink to="/register">Register</NavLink></li>
                                 </ul>
                             </li>
-                            <li><a>Item 3</a></li>
+                            <li><NavLink to="/products">products</NavLink></li>
                         </ul>
                     </div>
                     <NavLink className="btn btn-ghost text-xl " to="/">
@@ -43,18 +43,18 @@ const NavMiddle = () => {
                 </div>
                 <div className="navbar-center hidden lg:flex">
                     <ul className="menu menu-horizontal px-1">
-                        <li><a>Item 1</a></li>
+                        <li><NavLink to="/products">products</NavLink></li>
                         <li>
                             <details>
                                 <summary><i class="fa-solid fa-user"></i>
                                 </summary>
                                 <ul className="p-2">
                                     <li><NavLink to="/login">Login</NavLink></li>
-                                    <li><NavLink to="/register">Register</NavLink></li>
+                                    <li><NavLink to="/products">products</NavLink></li>
                                 </ul>
                             </details>
                         </li>
-                        <li><a>Item 3</a></li>
+                        <li><a>products</a></li>
                     </ul>
                 </div>
                 <div className="navbar-end">

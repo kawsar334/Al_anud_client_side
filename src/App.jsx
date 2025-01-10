@@ -10,6 +10,8 @@ import Layout from './pages/userLayout/Layout';
 import Home from './pages/userLayout/Home';
 import Login from './pages/userLayout/Login';
 import Register from './pages/userLayout/Registe';
+import ProductDetails from './pages/userLayout/ProductDetails';
+import Products from './pages/userLayout/Products';
 
 
 function App() {
@@ -28,6 +30,22 @@ function App() {
           element: (
          
               <Home />
+
+          ),
+        },
+        {
+          path: "/product/:id",
+          element: (
+
+            <ProductDetails />
+
+          ),
+        },
+        {
+          path: "/products",
+          element: (
+
+            <Products />
 
           ),
         },
