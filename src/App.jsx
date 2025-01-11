@@ -14,9 +14,8 @@ import ProductDetails from './pages/userLayout/ProductDetails';
 import Products from './pages/userLayout/Products';
 
 
-function App() {
 
-  
+function App() {
 
   const router = createBrowserRouter([
     {
@@ -75,6 +74,7 @@ function App() {
 
   return (
     <>
+   
       <RouterProvider router={router} />
       <ToastContainer />
     </>
