@@ -13,6 +13,8 @@ import Register from './pages/userLayout/Registe';
 import ProductDetails from './pages/userLayout/ProductDetails';
 import Products from './pages/userLayout/Products';
 
+import { Provider } from 'react-redux';
+import store from './redux/store';
 
 
 function App() {
@@ -75,7 +77,10 @@ function App() {
   return (
     <>
    
+      <Provider store={store} >
+
       <RouterProvider router={router} />
+   </Provider>
       <ToastContainer />
     </>
   );
