@@ -7,7 +7,7 @@ import Loader from '../../components/Loader';
 
 
 const fetchProductDetails = async(id)=>{
-    const { data, isLoading,error } = await axios.get(`https://server-anud.vercel.app/api/product/find/${id}`); 
+    const { data, isLoading,error } = await axios.get(`http://localhost:5000/api/product/find/${id}`); 
     return data;
 }
 

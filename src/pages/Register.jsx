@@ -49,7 +49,7 @@ const navigate = useNavigate()
 
     return (
         <div className="flex justify-center items-center h-screen bg-transparent">
-            <div className="w-full max-w-md p-8 space-y-3 rounded-xl  md:border   shadow-lg">
+            {/* <div className="w-full max-w-md p-8 space-y-3 rounded-xl  md:border   shadow-lg">
                 <h1 className="text-2xl font-bold text-center">Register</h1>
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
@@ -116,7 +116,7 @@ const navigate = useNavigate()
                     </button>
                 </form>
                 <p >Already Have an account ? <NavLink to="/login" className="text-blue">Login</NavLink></p>
-            </div>
+            </div> */}
         </div>
     );
 };

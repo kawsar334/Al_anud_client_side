@@ -10,15 +10,19 @@ import { useQuery } from '@tanstack/react-query';
 import Loader from '../../components/Loader';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from '../../redux/authSlice';
+import UserRole from '../../privateRoutes/UserRole';
 
 const fetchProduct = async () => {
-  const { data, } = await axios.get('https://server-anud.vercel.app/api/product/productList'); 
+  const { data, } = await axios.get('http://localhost:5000/api/product/productList',{
+    withCredentials:true
+  }); 
   return data;
 };
 
 
 const Home = () => {
   const { user } = useSelector((state) => state.auth);
+  const { role } = UserRole()
   const dispatch = useDispatch()
   const { data, isLoading, error } = useQuery({
     queryKey: ['product'], 
@@ -27,13 +31,15 @@ const Home = () => {
     cacheTime: 1000 * 60 * 10, 
   });
 
+  console.log(error)
   if (isLoading) return <Loader/>;
   if (error) return <p className="text-center text-red-500"> {error.message}</p>;
 
  
   return (
     <div>
-      <Banner />
+   
+     <Banner />
       <SecondBanner />
       <Categories products={data?.data} />
       <SpecialBanner />

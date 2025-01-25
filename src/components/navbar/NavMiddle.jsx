@@ -1,7 +1,10 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
+import UserRole from '../../privateRoutes/UserRole'
 
 const NavMiddle = () => {
+
+    const { role } = UserRole()
     return (
         <div className='w-full bg-white mx-auto shadow-sm sticky top-0 left-0 z-50 '>
 
@@ -30,8 +33,11 @@ const NavMiddle = () => {
                                 <a><i className="fa-solid fa-user"></i>
                                 </a>
                                 <ul className="p-2 ">
-                                    <li><NavLink to="/login">Login</NavLink></li>
-                                    <li><NavLink to="/register">Register</NavLink></li>
+                                    <li><NavLink to="/dashboard">Dashboard</NavLink></li>
+                                    <>
+                                        <li><NavLink to="/login">Login</NavLink></li>
+                                        <li><NavLink to="/register">Register</NavLink></li>
+                                    </>
                                 </ul>
                             </li>
                             <li><NavLink to="/products">products</NavLink></li>
@@ -59,11 +65,18 @@ const NavMiddle = () => {
                 </div>
                 <div className="navbar-end">
                     <div className="flex-none">
-                        <ul className="menu menu-horizontal px-1">
-                            <li><a><i class="fa-solid fa-cart-shopping"></i>
-                            </a></li>
-                            <li><a><i class="fa-solid fa-heart"></i>
-                            </a></li>
+                        <ul className="menu menu-horizontal px-1">                         
+                               {role=== "admin" && <li><NavLink to="/dashboard/main">Dashboard</NavLink></li>}
+                            <li>
+                                <a>
+                                    <i class="fa-solid fa-cart-shopping"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a><i class="fa-solid fa-heart"></i>
+                                </a>
+                            </li>
+                          
                             <li>
                                 <details>
                                     <summary><i class="fa-solid fa-user"></i>

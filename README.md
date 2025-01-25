@@ -11,7 +11,7 @@
 
 **Backend Links**
 - [backend github link](https://github.com/kawsar334/Al_anud_server_side)
-- [api Link on vercel](https://server-anud.vercel.app)+/endpoind 
+- [api Link on vercel](http://localhost:5000)+/endpoind 
 
 ### Description
 - 
