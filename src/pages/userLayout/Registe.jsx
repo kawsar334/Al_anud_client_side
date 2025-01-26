@@ -4,6 +4,7 @@ import { register } from "../../redux/authActions";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import axios from "axios";
+import {  loginGoogle } from "../../redux/authActions";
 
 const Register = () => {
     const navigate= useNavigate();
@@ -12,34 +13,60 @@ const Register = () => {
     const [photoURL, setPhotoURL] = useState(null);
     const [photo, setPhoto] = useState(null);
     const [name, setName ]= useState("")
-    
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
 
-    const handleUpload = async (e) => {
-       
-        const formData = new FormData();
-        formData.append("file", photo);
-        formData.append("upload_preset", "alanud"); 
+    // validate password
+    const validatePassword = (password) => {
+        const regex = /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
+        return regex.test(password);
+    };
+ 
 
+    const handleUpload = async(e)=>{
+        setPhoto(e.target.files[0])
         try {
+            const formData = new FormData();
+            formData.append("file", photo);
+            formData.append("upload_preset", "alanud");
             const response = await axios.post(
-                "https://api.cloudinary.com/v1_1/dmvmzwqkw/image/upload", 
+                "https://api.cloudinary.com/v1_1/dmvmzwqkw/image/upload",
                 formData
             );
-            setPhotoURL(response.data.secure_url)
-            // email, password, photoURL, name, navigate, toast
-            dispatch(register(email, password, photoURL, name , navigate , toast))
-        } catch (error) {
-            toast.error("Failed to upload image. Please try again.");
-            console.error("Cloudinary upload error:", error);
+            setPhotoURL(response.data.secure_url);
+            console.log(response.data.secure_url)
+        } catch (err) {
+            console.log(err)
+            toast.error("Failed upload photo. Please try again.");
         }
-        
 
+    }
+    // handle submit function
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+      
+
+        if (!validatePassword(password)) {
+            setError("Password must be at least 6 characters long with uppercase and lowercase letters.");
+            toast.error("Password must be at least 6 characters long with uppercase and lowercase letters.");
+            return;
+        }
+            if (!photoURL){
+                toast.error("Failed to upload photo. Please try again.");
+                return;
+            }
+        dispatch(register(email, password, photoURL, name, navigate, toast));
+       
     };
+
+
+    // google login 
+    const handleGoogleLogin = () => {
+        dispatch(loginGoogle(navigate, toast));
+    }
     
     return (
         <div className="flex items-center justify-center min-h-screen ">
-            <div className="bg-white shadow-lg rounded-lg p-8 md:w-[500px] w-full">
+            <form className="bg-white shadow-lg rounded-lg p-8 md:w-[500px] w-full" onSubmit={handleSubmit}>
                 <h2 className="text-2xl font-bold text-center mb-6">Register</h2>
 
                 <div className="mb-4">
@@ -47,6 +74,7 @@ const Register = () => {
                         Name
                     </label>
                     <input
+                    required
                         type="text"
                         id="name"
                         placeholder="Enter your name"
@@ -60,6 +88,7 @@ const Register = () => {
                         Email
                     </label>
                     <input
+                    required
                     onChange={(e)=>setEmail(e.target.value)}
                         type="email"
                         id="email"
@@ -73,9 +102,11 @@ const Register = () => {
                         
                     </label>
                     <input
-                        onChange={(e)=>setPhoto(e.target.files[0])}
+                        // onChange={(e)=>setPhoto(e.target.files[0])}
+                        onChange={handleUpload}
                         type="file"
                         id="photoURL"
+                        required
                         placeholder="Enter your "
                         className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-400"
                     />
@@ -88,6 +119,7 @@ const Register = () => {
                     <input
                         type="password"
                         id="password"
+                        required
                         onChange={(e) => setpassword(e.target.value)}
                         placeholder="Create a password"
                         className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-400"
@@ -95,7 +127,6 @@ const Register = () => {
                 </div>
 
                 <button
-                    onClick={handleUpload}
                     type="submit"
                     className="w-full bg-teal text-white py-2 rounded-md hover:bg-teal-600 transition"
                 >
@@ -105,6 +136,7 @@ const Register = () => {
                 <div className="my-6 text-center text-gray-500">OR</div>
 
                 <button
+                    onClick={handleGoogleLogin}
                     className="w-full flex items-center justify-center bg-red-500 text-white py-2 rounded-md hover:bg-red-600 transition"
                 >
                     <i className="fa-brands fa-google mr-2"></i>
@@ -117,7 +149,7 @@ const Register = () => {
                         Login here
                     </NavLink>
                 </p>
-            </div>
+            </form>
         </div>
     );
 };

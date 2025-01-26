@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { NavLink, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import Swal from 'sweetalert2';
 
 const fetchPosts = async () => {
     const { data } = await axios.get('http://localhost:5000/api/user/stats', {
@@ -48,6 +49,35 @@ const UserList = () => {
     // navigte to update route
     const navigateToUpdateRoute = (user) => {
         navigate(`/dashboard/update/${user?._id}`, { state: { user } });
+    };
+
+   
+// handling delete funcionality
+    const handleDelete = async (id) => {
+        const result = await Swal.fire({
+            title: 'Are you sure?',
+            text: 'You won’t be able to revert this!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'Cancel',
+        });
+        if (result.isConfirmed) {
+            try {
+                const res = await axios.delete(`http://localhost:5000/api/user/${id}`, {
+                    withCredentials: true,
+                });
+                if (res) {
+                    toast.success(res.data?.message || 'User deleted successfully!');
+                    refetch(); 
+                }
+            } catch (err) {
+                console.error(err);
+                toast.error('Failed to delete user!');
+            }
+        } else {
+            toast.info('User deletion was cancelled.');
+        }
     };
     return (
         <div className="p-6 bg-gray-100 w-full min-h-screen">
@@ -96,7 +126,7 @@ const UserList = () => {
                                     <button onClick={() => navigateToUpdateRoute(user)} title="Edite" className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 mr-2">
                                         <i className="fas fa-edit text-lg"></i>
                                     </button >
-                                    <button title="Delete" className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">
+                                    <button onClick={() => handleDelete(user?._id)} title="Delete" className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">
                                         <i className="fas fa-trash text-lg"></i>
                                     </button>
                                 </td>

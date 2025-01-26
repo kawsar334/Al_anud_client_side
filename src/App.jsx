@@ -23,38 +23,17 @@ import AdminDashboard from './pages/admiLayout/AdminDashboard';
 import DashboardMain from './pages/admiLayout/DashboardMain';
 import ProductList from './pages/admiLayout/ProductList';
 import UserList from './pages/admiLayout/UserList';
-import Analytics from './pages/admiLayout/Analytics';
 import Settings from './pages/admiLayout/Setting';
 import UpdateUser from './pages/admiLayout/UpdateUser';
+import UpdateProduct from './pages/admiLayout/UpadeProduct';
+import CreateProduct from './pages/admiLayout/CreateProduct';
+import UserRole from './privateRoutes/UserRole';
+import ProtectedRoute from './ProtectedRoute';
 
 
 function App() {
   const dispatch = useDispatch()
-  // useEffect(() => {
-  //   dispatch(setLoading(true));
-  //   const unsubscribe = onAuthStateChanged(auth, (user) => {
-  //     if (user) {
-  //       // Dispatch user data to Redux store
-  //       dispatch(
-  //         setUser({
-  //           uid: user.uid,
-  //           email: user.email,
-  //           displayName: user.displayName,
-  //           photoURL: user.photoURL,
-  //         })
-  //       );
-  //     } else {
-  //       // Clear user from Redux store
-  //       dispatch(setUser(null));
-  //     }
-  //     dispatch(setLoading(false));
-  //   });
-
-  //   // Cleanup subscription on component unmount
-  //   return () => unsubscribe();
-  // }, [dispatch]);
-
-
+  const { role } = UserRole();
   useEffect(() => {
     dispatch(setLoading(true));
     dispatch(setLoading(true));
@@ -123,12 +102,15 @@ function App() {
       path: "/dashboard",
       element: <AdminDashboard />,
       children:[
-        { path: "main", element:<DashboardMain/>},
-        { path: "product", element: <ProductList /> },
-        { path: "users", element: <UserList /> },
-        { path: "analytics", element: <Analytics /> },
-        { path: "setting", element: <Settings /> },
-        { path: "update/:id", element: <UpdateUser /> },
+        { path: "main", element: <><DashboardMain /></> },
+        { path: "product", element: <> <ProductList /></> },
+        { path: "users", element: <>  <UserList /></> },
+        { path: "setting", element:<>  <Settings /></> },
+        { path: "update/:id", element:<>  <UpdateUser /></> },
+        { path: "updateproduct/:id", element:<>  <UpdateProduct /> </>},
+        { path: "create", element:<>  <CreateProduct /></> },
+
+
 
 
 

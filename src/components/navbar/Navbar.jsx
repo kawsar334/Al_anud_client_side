@@ -12,7 +12,7 @@ const Navbar = () => {
     <div className='lg:sticky top-0 left-0 lg:z-50'>
       <NavTop />
       <NavMiddle />
-      {path === "/" && <NavBottom />}
+      {/* {path === "/" && <NavBottom />} */}
     </div>
   )
 }

@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import Loader from "../../components/Loader";
+import Analytics from "../../components/Analytics/Analytics";
+import { NavLink } from "react-router-dom";
 
 
 const fetchPosts = async () => {
@@ -20,6 +22,7 @@ const DashboardMain = () => {
     cacheTime: 1000 * 60 * 10,
      
   });
+  console.log(error)
     const usersByRole = data?.data?.usersByRole
    if(error){
     return (
@@ -61,53 +64,33 @@ const DashboardMain = () => {
         </div>
       </div>
 
-      {/* Recent Activity Section */}
-      <div className="bg-white shadow rounded-lg p-6 mb-8">
-        <h2 className="text-2xl font-bold mb-4">Recent Activity</h2>
-        <ul className="divide-y divide-gray-200">
-          <li className="py-2 flex justify-between">
-            <span>User John Doe placed an order.</span>
-            <span className="text-gray-500 text-sm">2 hours ago</span>
-          </li>
-          <li className="py-2 flex justify-between">
-            <span>Product "Wireless Headphones" added to inventory.</span>
-            <span className="text-gray-500 text-sm">4 hours ago</span>
-          </li>
-          <li className="py-2 flex justify-between">
-            <span>Admin updated pricing for "Smartphone".</span>
-            <span className="text-gray-500 text-sm">6 hours ago</span>
-          </li>
-        </ul>
-      </div>
 
-      {/* Quick Links Section */}
+      <Analytics items={data}/>
       <div className="bg-white shadow rounded-lg p-6">
         <h2 className="text-2xl font-bold mb-4">Quick Links</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <a
-            href="/dashboard/users"
+          <NavLink
+            to="/dashboard/users"
             className="block bg-blue-500 text-white text-center py-4 rounded-lg shadow hover:bg-blue-600"
           >
             Manage Users
-          </a>
-          <a
-            href="/dashboard/orders"
+          </NavLink>
+          <NavLink
+            to="/dashboard/product"
             className="block bg-green-500 text-white text-center py-4 rounded-lg shadow hover:bg-green-600"
           >
-            Manage Orders
-          </a>
-          <a
-            href="/dashboard/products"
+            Add product
+          </NavLink>
+          <NavLink
+            to="/dashboard/users"
             className="block bg-yellow-500 text-white text-center py-4 rounded-lg shadow hover:bg-yellow-600"
-          >
-            Manage Products
-          </a>
-          <a
-            href="/dashboard/reports"
+          >Manage users
+          </NavLink>
+          <NavLink
+            to="/dashboard/reports"
             className="block bg-red-500 text-white text-center py-4 rounded-lg shadow hover:bg-red-600"
-          >
-            View Reports
-          </a>
+          >View Reports
+          </NavLink>
         </div>
       </div>
     </div>

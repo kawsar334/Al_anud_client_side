@@ -4,6 +4,7 @@
 import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const fetchPosts = async () => {
     const { data } = await axios.get("http://localhost:5000/api/product/productList", {
@@ -13,6 +14,7 @@ const fetchPosts = async () => {
 };
 
 const ProductList = () => {
+    const navigate = useNavigate()
     const { data, isLoading, error } = useQuery({
         queryKey: "products",
         queryFn: fetchPosts,
@@ -30,12 +32,26 @@ const ProductList = () => {
         setSelectedProduct(null);
     };
 
+
+    const navigateToUpdateRoute = (product) => {
+        navigate(`/dashboard/updateproduct/${product?._id}`, { state: { product } });
+    };
+
     if (isLoading) return <p>Loading...</p>;
     if (error) return <p>Error loading products.</p>;
-
     return (
         <div className="p-6 bg-gray-100 min-h-screen w-full">
-            <h1 className="text-3xl font-bold mb-6">Product List</h1>
+            <div className="flex justify-center items-center gap-10 py-3 my-6">
+            <h1 className="text-3xl font-bold   ">Product List</h1>
+                <NavLink
+                    to="/dashboard/create"
+                    className="flex items-center px-4 py-2  bg-teal  rounded  text-white"
+                >
+                    <i className="fas fa-box mr-3"></i>
+                    create Product
+                </NavLink>
+
+            </div>
             <div className="overflow-x-auto">
                 <table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden capitalize">
                     <thead>
@@ -71,6 +87,7 @@ const ProductList = () => {
                                 <td className="p-4">{product?.name}</td>
                                 <td className="p-4">{product?.category}</td>
                                 <td className="p-4">{product?.price}</td>
+                                
                                 <td
                                     className={`p-4 font-semibold ${product?.stock === "In Stock"
                                             ? "text-green-500"
@@ -80,7 +97,7 @@ const ProductList = () => {
                                     {product.stock}
                                 </td>
                                 <td className="p-4">
-                                    <button className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 mr-2">
+                                    <button onClick={() => navigateToUpdateRoute(product)} className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 mr-2">
                                         Edit
                                     </button>
                                     <button className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">
@@ -126,6 +143,7 @@ const ProductList = () => {
                         <p className="text-gray-700">
                             <strong>Stock:</strong> {selectedProduct.stock}
                         </p>
+                        <p><strong>Description:</strong> {selectedProduct.description}</p>
                     </div>
                 </div>
             )}

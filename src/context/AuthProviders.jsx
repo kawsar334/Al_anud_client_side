@@ -51,7 +51,7 @@ const AuthProviders = ({ children }) => {
       };
 
       try {
-        const response = await fetch("https://server-wheat-xi.vercel.app/users", {
+        const response = await fetch("http://localhost:5000/users", {
           method: "post" ,
           headers: {
             "Content-Type": "application/json",
@@ -106,35 +106,36 @@ const AuthProviders = ({ children }) => {
 
     if (result.isConfirmed) {
       try {
-        const response = await fetch(`https://server-wheat-xi.vercel.app/logout`, {
+        const response = await fetch(`http://localhost:5000/api/auth/logout`, {
           method: "POST",
           credentials: "include",
         });
 
         const data = await response.json();
-       
-
+        console.log(data)
         if (response.ok) {
           await signOut(auth); 
           setUser(null);
           Swal.fire("Signed Out!", "You have been signed out successfully.", "success");
 
           setTimeout(() => {
-            
             window.location.reload();
+            window.location.href = "/";
+            localStorage.removeItem("user")
+
           }, 600);
         } else {
           console.error(data.msg);
           Swal.fire("Error!", data.msg || "Failed to sign out.", "error");
         }
       } catch (err) {
-        console.error(err);
+        console.log(err);
         Swal.fire("Error!", "Failed to sign out. Please try again later.", "error");
       }
     }
   };
 
-  // 
+  // signin with google
   const signInWithGoogle = async (navigate) => {
     const provider = new GoogleAuthProvider();
     try {
@@ -148,7 +149,7 @@ const AuthProviders = ({ children }) => {
         photoURL: user?.photoURL,
         lastSignInTime
       };
-      const response = await fetch("https://server-wheat-xi.vercel.app/users", {
+      const response = await fetch("http://localhost:5000/users", {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",

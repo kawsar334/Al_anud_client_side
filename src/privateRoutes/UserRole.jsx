@@ -5,6 +5,7 @@ const UserRole = () => {
 
     const id = localStorage.getItem("user");
     const [role, setRole ] = useState("")
+    const [user, setUser] = useState(null)
   
 
 useEffect(()=>{
@@ -14,6 +15,7 @@ useEffect(()=>{
             const response = await axios.get(`http://localhost:5000/api/user/find/${id}`,{
                 withCredentials:true
             })
+            setUser(response.data?.data)
             setRole(response.data?.data.role)
         }catch(err){
             console.log(err)
@@ -21,7 +23,7 @@ useEffect(()=>{
     }
     getUserDetails()
 }, [id, role])
-  return {role}
+  return {role, user}
 }
 
 export default UserRole

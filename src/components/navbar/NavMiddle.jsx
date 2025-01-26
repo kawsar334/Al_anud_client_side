@@ -1,10 +1,11 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 import UserRole from '../../privateRoutes/UserRole'
+import { signOutUser } from '../../redux/authActions'
 
 const NavMiddle = () => {
-
-    const { role } = UserRole()
+    
+    const { role } = UserRole();
     return (
         <div className='w-full bg-white mx-auto shadow-sm sticky top-0 left-0 z-50 '>
 
@@ -44,7 +45,7 @@ const NavMiddle = () => {
                         </ul>
                     </div>
                     <NavLink className="btn btn-ghost text-xl " to="/">
-                        <span className='first-letter:text-teal teaxt-white'>AL-ANUD</span>
+                        <span className='first-letter:text-teal teaxt-white' >AL-ANUD</span>
                     </NavLink>
                 </div>
                 <div className="navbar-center hidden lg:flex">

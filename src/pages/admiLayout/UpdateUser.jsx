@@ -1,6 +1,8 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 const UpdateUser = ({  }) => {
 
@@ -23,15 +25,27 @@ const UpdateUser = ({  }) => {
 
     const handleSubmit = async(e) => {
         e.preventDefault();
-
         try{
-            const res = await axios.put(`http://localhost:5000/api/user/update/${id}`,{
-                name: formData.name,
-                email: formData.email,
-                role: formData.role,
-                photoURL: formData.photoURL,
-            },{withCredentials:true});
-        console.log(res.data)
+             const result = await Swal.fire({
+                        title: 'Are you sure?',
+                        text: 'You won’t be able to Update?',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Yes, delete it!',
+                        cancelButtonText: 'Cancel',
+                    });
+            if (result.isConfirmed) {
+                const res = await axios.put(`http://localhost:5000/api/user/update/${id}`, {
+                    name: formData.name,
+                    email: formData.email,
+                    role: formData.role,
+                    photoURL: formData.photoURL,
+                }, { withCredentials: true });
+                toast.success(res.data?.message)
+            }else{
+                toast.error('canceled to update user!');
+            }
+            
 
         }catch(err){
             console.log(err)
