@@ -5,7 +5,8 @@ import { signOutUser } from '../../redux/authActions'
 
 const NavMiddle = () => {
     
-    const { role } = UserRole();
+    const { role, user } = UserRole();
+    console.log(user)
     return (
         <div className='w-full bg-white mx-auto shadow-sm sticky top-0 left-0 z-50 '>
 
@@ -34,11 +35,11 @@ const NavMiddle = () => {
                                 <a><i className="fa-solid fa-user"></i>
                                 </a>
                                 <ul className="p-2 ">
-                                    <li><NavLink to="/dashboard">Dashboard</NavLink></li>
-                                    <>
+                                    {role === "admin" && <li><NavLink to="/dashboard/main">Dashboard</NavLink></li>}
+                                   {user?<button onClick={signOutUser} >logout</button>: <>
                                         <li><NavLink to="/login">Login</NavLink></li>
                                         <li><NavLink to="/register">Register</NavLink></li>
-                                    </>
+                                    </>}
                                 </ul>
                             </li>
                             <li><NavLink to="/products">products</NavLink></li>
@@ -56,8 +57,10 @@ const NavMiddle = () => {
                                 <summary><i class="fa-solid fa-user"></i>
                                 </summary>
                                 <ul className="p-2">
-                                    <li><NavLink to="/login">Login</NavLink></li>
-                                    <li><NavLink to="/products">products</NavLink></li>
+                                    {user ? <button onClick={signOutUser} >logout</button> : <>
+                                        <li><NavLink to="/login">Login</NavLink></li>
+                                        <li><NavLink to="/register">Register</NavLink></li>
+                                    </>}
                                 </ul>
                             </details>
                         </li>
@@ -83,8 +86,10 @@ const NavMiddle = () => {
                                     <summary><i class="fa-solid fa-user"></i>
                                     </summary>
                                     <ul className="bg-base-100 rounded-t-none p-2">
-                                        <li><NavLink to="/login">Login</NavLink></li>
-                                        <li><NavLink to="/register">Register</NavLink></li>
+                                        {user ? <button onClick={signOutUser} >logout</button> : <>
+                                            <li><NavLink to="/login">Login</NavLink></li>
+                                            <li><NavLink to="/register">Register</NavLink></li>
+                                        </>}
                                     </ul>
                                 </details>
                             </li>
