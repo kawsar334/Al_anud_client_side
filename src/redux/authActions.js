@@ -6,20 +6,6 @@ import axios from 'axios';
 import { auth } from '../firebase';
 import Swal from 'sweetalert2';
 
-// export const login = (email, password) => async (dispatch) => {
-//     dispatch(setLoading(true));
-//     try {
-//         const { data } = await axios.post('/api/auth/login', { email, password });
-//         dispatch(setUser(data.user));
-//     } catch (error) {
-//         dispatch(setError(error.response?.data?.message || error.message));
-//     } finally {
-//         dispatch(setLoading(false));
-//     }
-// };
-// 
-
-
 export const register = (email, password, photoURL, name, navigate, toast) => async (dispatch) => {
   dispatch(setLoading(true));
   try {
@@ -35,13 +21,15 @@ export const register = (email, password, photoURL, name, navigate, toast) => as
       photoURL: user?.photoURL,
       password,
     };
-
-    console.log(email, password, photoURL, name)
     const response = await axios.post("http://localhost:5000/api/auth/register", userInfo);
     if (response) {
       dispatch(setUser(response.data.user));
       toast.success("Registration successful!");
+      localStorage.setItem("user", response.data?.user?._id);
       navigate("/");
+      setTimeout(() => {
+        window.location.reload()
+      }, 500);
     }
     dispatch(setLoading(false));
   } catch (error) {
@@ -76,41 +64,10 @@ export const login = (email, password, navigate, toast) => async (dispatch) => {
 }
 
 
-// 
 
 
 
-
-// 
-
-export const signup = (email, password) => async (dispatch) => {
-  dispatch(setLoading(true));
-  try {
-    // Send signup data to the backend
-    const { data } = await axios.post('/api/auth/signup', { email, password });
-    dispatch(setUser(data.user));
-  } catch (error) {
-    dispatch(setError(error.response?.data?.message || error.message));
-  } finally {
-    dispatch(setLoading(false));
-  }
-};
-
-export const logout = () => async (dispatch) => {
-  dispatch(setLoading(true));
-  try {
-    await axios.post('/api/auth/logout');
-    dispatch(setUser(null));
-  } catch (error) {
-    dispatch(setError(error.response?.data?.message || error.message));
-  } finally {
-    dispatch(setLoading(false));
-  }
-};
-
-
-
-
+// login  with google 
 export const loginGoogle = (navigate, toast) => async (dispatch) => {
   dispatch(setLoading(true));
   try {
@@ -147,15 +104,6 @@ export const loginGoogle = (navigate, toast) => async (dispatch) => {
   }
 }
 // 
-
-
-
-
-
-
-
-
-
 
 
 

@@ -17,34 +17,16 @@ const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch()
 
+
+  // login functionalitis.....
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // setError("");
-    // setLoading(true);
-    // try {
-    //   const response = await axios.post("http://localhost:5000/api/auth/login",
-    //     { email, password },
-    //     { withCredentials: true } 
-    //   );
-    //   if (response.data?.user){
-
-    //     toast.success("Login successful!");
-    //     navigate("/");
-    //     localStorage.setItem("user", response.data?.user?._id);
-    //     setLoading(false);
-    //   }
-
-    // } catch (error) {
-    //   toast.error(error.response?.data?.error || "Login failed. Please try again.");
-    // } finally {
-    //   setLoading(false);
-    // }
     dispatch(login(email, password,navigate,toast))
   }
 
 
 
-  // google signin
+  // google signin....
   const handleGoogleLogin = ()=>{
     dispatch(loginGoogle(navigate, toast))
 

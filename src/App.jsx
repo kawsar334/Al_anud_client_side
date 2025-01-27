@@ -29,6 +29,8 @@ import UpdateProduct from './pages/admiLayout/UpadeProduct';
 import CreateProduct from './pages/admiLayout/CreateProduct';
 import UserRole from './privateRoutes/UserRole';
 import ProtectedRoute from './ProtectedRoute';
+import ContactPage from './pages/userLayout/Contact';
+import CategoryProducts from './pages/userLayout/CategoryProducts';
 
 
 function App() {
@@ -84,6 +86,22 @@ function App() {
           ),
         },
         {
+          path: "/contact",
+          element: (
+
+            <ContactPage />
+
+          ),
+        },
+        {
+          path: "/cat/:category",
+          element: (
+
+            <CategoryProducts />
+
+          ),
+        },
+        {
           path: "/login",
           element: (
             <Login />
@@ -109,6 +127,7 @@ function App() {
         { path: "update/:id", element:<>  <UpdateUser /></> },
         { path: "updateproduct/:id", element:<>  <UpdateProduct /> </>},
         { path: "create", element:<>  <CreateProduct /></> },
+
 
 
 

@@ -1,15 +1,18 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Title from '../CustomTitle/Title'
 import { NavLink } from 'react-router-dom';
 import "../../App.css"
 
 const Categories = ({ products }) => {
 
-    const cats = ["milk", "fruits", "flour", "meat", "vegetables", "eggs"];
+    const [category, setCategory] =useState("All")
+    const cats = ["Cereals", "Fruits", "Rice & Grains", "Clothing", "Home", "Sports"];
+    const [productLists , setProductsList]=useState(products)
+  
 
-    console.log(products)
+   
 
-    const productLists = [
+    const productList = [
         {
             id: 1,
             name: "Horse Gram",
@@ -61,47 +64,66 @@ const Categories = ({ products }) => {
 
     ]
 
+    const handleFilter=(i)=>{
+        setCategory(i)
+
+        if (category === "All"){
+            setProductsList(products)
+        }else{
+            setProductsList(products.filter(item=>item.category===category))
+        }
+        // setProductsList(productLists.filter(item=>item.category===category))
+    }
+
 
     return (
-        <div className='flex justify-center  items-center gap-4 w-[90%] mx-auto  flex-col  ' id='products'>
+        <div className='flex justify-center  items-center gap-4 w-[80%] mx-auto  flex-col  ' id='products'>
 
             <Title title="our categories" />
 
 {/* category */}
             <ul className='flex justify-center items-center  gap-3 flex-wrap'>
-                {products.map((cat, index) => (
-                    <li key={index} className='py-6 px-10 rounded border  capitalize font-semibold'>
-                        <NavLink to={`/category/${cat}`}>{cat?.category}</NavLink>
+                <li  onClick={() => handleFilter("All")} className='py-2 cursor-pointer px-5 rounded border  capitalize font-semibold'>
+                    <span >All</span>
+                </li>
+                {cats.map((cat, index) => (
+                    <li key={index} onClick={() => handleFilter(cat)} className='py-2 cursor-pointer px-5 rounded border  capitalize font-semibold'>
+                        <span >{cat}</span>
                     </li>
                 ))}
             </ul>
             {/* product lst  */}
-            <div className='flex justify-center items-center flex-wrap w-full space-y-3 my-10 '>
+            <div className='flex  justify-center items-center flex-wrap w-full space-y-3 my-10 capitalize '>
+ 
+                {productLists?.length === 0? (<div>
 
-                {products.map((product) => (
-                    <div key={product._id} className='parrent flex w-full border p-4  md:w-[32%] justify-center items-center gap-6  mx-auto  flex-col cursor-pointer relative  transition-all  duration-700'>
-                        <img src={product.image} alt={product?.name} className='w-full h-[250px] object-cover rounded-md ' />
-                        <h3 className='text-bgcolor font-semibold'>{product?.name}</h3>
-                        <p>
-                            <span className='text-[#FFD700] flex justify-center items-center gap-2 text-2xl'>
-                                <i className="fa-solid fa-star"></i>
-                                <i className="fa-solid fa-star"></i>
-                                <i className="fa-solid fa-star"></i>
-                                <i className="fa-solid fa-star"></i>
-                                <i className="fa-solid fa-star"></i>
-                            </span>
-                        </p>
-                        <h3 className='text-teal font-bold text-2xl'>${product.price}</h3>
+                        <h1 className='text-3xl'>Empty Product List</h1>
+                </div>) : <>  {productLists?.slice(0,6).map((product) => (
+                     <div key={product._id} className='parrent rounded flex w-full border p-4  md:w-[32%] justify-center items-center gap-6  mx-auto  flex-col cursor-pointer relative  transition-all  duration-700'>
+                         <img src={product.image} alt={product?.name} className='w-full h-[250px] object-cover rounded-md ' />
+                         <h3 className='text-bgcolor font-semibold'>{product?.name}</h3>
+                         <p>
+                             <span className='text-[#FFD700] flex justify-center items-center gap-2 text-2xl'>
+                                 <i className="fa-solid fa-star"></i>
+                                 <i className="fa-solid fa-star"></i>
+                                 <i className="fa-solid fa-star"></i>
+                                 <i className="fa-solid fa-star"></i>
+                                 <i className="fa-solid fa-star"></i>
+                             </span>
+                         </p>
+                         <h3 className='text-teal font-bold text-2xl'>${product.price}</h3>
 
-                        <NavLink className="border z-10 w-full py-2 text-center bg-teal capitalize text-white transition-all duration-500 hover:bg-transparent hover:text-teal hover:border-teal rounded" to={`/product/${product._id}`}>view details</NavLink>
+                         <NavLink className="border z-10 w-full py-2 text-center bg-teal capitalize text-white transition-all duration-500 hover:bg-transparent hover:text-teal hover:border-teal rounded" to={`/product/${product._id}`}>view details</NavLink>
 
-                        <div className='absolute children top-0 left-0 w-full h-full hidden text-white  justify-center items-center gap-4 text-3xl bg-[rgba(0,0,0,0.2)]  transition-all  duration-700'>
-                            <NavLink to="/cat/:category"><i class="fa-solid fa-magnifying-glass"></i></NavLink>
-                            <NavLink to="/cat/:category"><i class="fa-solid fa-heart"></i></NavLink>
-                        </div>
-                    </div>
+                         <div className='absolute children top-0 left-0 w-full h-full hidden text-white  justify-center items-center gap-4 text-3xl bg-[rgba(0,0,0,0.2)] opacity-35  transition-all  duration-700'>
+                             <NavLink to="/cat/:category"><i class="fa-solid fa-magnifying-glass"></i></NavLink>
+                             <NavLink to="/cat/:category"><i class="fa-solid fa-heart"></i></NavLink>
+                         </div>
+                     </div>
 
-                ))}
+                 ))}
+                </>}
+               
             </div>
         </div>
     )

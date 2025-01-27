@@ -14,6 +14,7 @@ const Register = () => {
     const [photo, setPhoto] = useState(null);
     const [name, setName ]= useState("")
     const dispatch = useDispatch();
+    const [error, setError] = useState("");
 
     // validate password
     const validatePassword = (password) => {
@@ -43,8 +44,6 @@ const Register = () => {
     // handle submit function
     const handleSubmit = async (e) => {
         e.preventDefault();
-      
-
         if (!validatePassword(password)) {
             setError("Password must be at least 6 characters long with uppercase and lowercase letters.");
             toast.error("Password must be at least 6 characters long with uppercase and lowercase letters.");

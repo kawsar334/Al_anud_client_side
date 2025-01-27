@@ -24,7 +24,7 @@ const Home = () => {
   const { user } = useSelector((state) => state.auth);
   const { role } = UserRole()
   const dispatch = useDispatch()
-  const { data, isLoading, error } = useQuery({
+  const { data, isLoading, error, refetch } = useQuery({
     queryKey: ['product'], 
     queryFn: fetchProduct,
     staleTime: 1000 * 60 * 5, 
@@ -38,7 +38,6 @@ const Home = () => {
  
   return (
     <div>
-   
      <Banner />
       <SecondBanner />
       <Categories products={data?.data} />

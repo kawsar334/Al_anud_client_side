@@ -1,4 +1,5 @@
 import React from 'react'
+import { NavLink } from 'react-router-dom'
 
 const SpecialBanner = () => {
   return (
@@ -22,7 +23,7 @@ const SpecialBanner = () => {
              <div className='w-full md:w-[50%] flex justify-center items-center gap-3 flex-col text-bgcolor'>
                   <h1 className='text-3xl font-semibold'>Special Discount For All Grocery Products</h1>
                   <p>Turpis tincidunt id aliquet risus feugiat. Pretium vulputate sapien nec sagittis aliquam. Ac tortor vitae purus faucibus ornare suspendisse sed nisi. Amet risus nullam eget felis eget nunc lobortis mattis aliquam</p>
-                  <a href="#" className='border px-4 py-1 rounded bg-teal hover:bg-white hover:text-teal transition-all duration-700'>Buy Now</a>
+          <NavLink to="/products" className='border px-4 py-1 rounded bg-teal hover:bg-white hover:text-teal transition-all duration-700'>Buy Now</NavLink>
              </div>
         </div>
     </div>

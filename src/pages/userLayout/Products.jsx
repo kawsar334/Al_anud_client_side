@@ -1,9 +1,14 @@
 import React, { useState } from "react";
+import { UseFetch } from "../../data/UseFetch";
+import { NavLink } from "react-router-dom";
+import Loader from "../../components/Loader";
 
 const Products = () => {
     const [searchTerm, setSearchTerm] = useState("");
     const [sortOrder, setSortOrder] = useState("asc");
-
+    const { data, isLoading, error, refetch }= UseFetch();
+    const [loading, setLoading] = useState(false)
+    
     // Mock product data with images
     const productList = [
         { id: 1, name: "Apple", price: 1.5, image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQaCWjL2TZWKBDLm5dBUm23BoZoKNvWzvC-fA&s" },
@@ -13,18 +18,28 @@ const Products = () => {
         { id: 5, name: "Elderberry", price: 4.0, image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvOVy4j_HdzxT27TjmwHQut9AiqbYGMyUC7g&s" },
     ];
 
-    // Filter and sort products
-    const filteredProducts = productList
-        .filter((product) =>
+
+    const handleReload = () => {
+        setLoading(true);
+        setTimeout(() => {
+            refetch();
+            setLoading(false);
+        }, 2000);
+    };
+
+    const filteredProducts = data?.data?.filter((product) =>
             product.name.toLowerCase().includes(searchTerm.toLowerCase())
         )
         .sort((a, b) => (sortOrder === "asc" ? a.price - b.price : b.price - a.price));
 
+
+    if (isLoading || loading) {
+        return <Loader />;
+    }
+
     return (
-        <div className="p-8">
-            {/* Search and Sort Section */}
+        <div className="p-8 w-[90%] mx-auto">
             <div className="flex flex-col lg:flex-row items-center gap-4 mb-6">
-                {/* Search Bar */}
                 <input
                     type="text"
                     placeholder="Search products..."
@@ -43,10 +58,8 @@ const Products = () => {
                     <option value="desc">Sort by Price: High to Low</option>
                 </select>
             </div>
-
-            {/* Product List */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredProducts.map((product) => (
+                {filteredProducts?.map((product) => (
                     <div
                         key={product.id}
                         className="border p-4 rounded shadow hover:shadow-lg transition flex flex-col items-center"
@@ -54,15 +67,27 @@ const Products = () => {
                         <img
                             src={product.image}
                             alt={product.name}
-                            className="w-32 h-32 object-cover mb-4"
+                            className="w-full md:w-32 rounded h-32 object-cover mb-4"
                         />
                         <h2 className="text-lg font-semibold">{product.name}</h2>
                         <p className="text-gray-600">${product.price.toFixed(2)}</p>
-                        <button className="mt-4 bg-teal text-white px-4 py-2 rounded hover:bg-teal-600 transition">
-                            Add to Cart
-                        </button>
+                       <div className="flex  justify-between items-center w-full flex-wrap">
+                            <button className="mt-4 bg-teal text-white px-4 py-2 rounded hover:bg-teal-600 transition">
+                                Add to Cart
+                            </button>
+                            <NavLink className="mt-4 bg-main text-white px-4 py-2 rounded hover:bg-teal-600 transition" to={`/product/${product?._id}`}>view details</NavLink>
+                       </div>
                     </div>
                 ))}
+            </div>
+
+            <div className="text-center mt-8">
+                <button
+                    onClick={handleReload}
+                    className="px-6 py-2 bg-teal text-white rounded-lg transition-all hover:bg-teal-600"
+                >
+                    Refresh
+                </button>
             </div>
         </div>
     );
